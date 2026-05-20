@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Turnos</title>
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="sidebar-logo">
+                🥗 NutriSystem
+            </div>
+
+            <div class="sidebar-user">
+
+                <div class="sidebar-avatar">
+                    👩‍⚕️
+                </div>
+
+                <div class="sidebar-user-info">
+
+                    <strong>
+                        Lic. Benitez
+                    </strong>
+
+                    <span>
+                        Nutricionista
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="dashboard.html">
+                📊 Dashboard
+            </a>
+
+            <a href="pacientes-adultos.html">
+                👤 Pacientes Adultos
+            </a>
+
+            <a href="pacientes-pediatricos.html">
+                👶 Pacientes Pediátricos
+            </a>
+
+            <a href="seguimiento.html">
+                📈 Seguimiento
+            </a>
+
+            <a href="plan-alimentario.html">
+                🍽️ Plan Alimentario
+            </a>
+
+            <a href="turnos.html"
+               class="active">
+                📅 Turnos
+            </a>
+
+            <a href="pagos.html">
+                💳 Pagos
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+
+        <h1>
+            Gestión de Turnos 📅
+        </h1>
+
+        <!-- ALERTA -->
+        <div class="card">
+
+            <h3 class="section-title">
+                Horarios de Atención
+            </h3>
+
+            <div class="alert-turnos">
+
+                📅 Atención únicamente:
+                <br><br>
+
+                <strong>
+                    Miércoles de 14:00 a 16:00
+                </strong>
+
+                <br><br>
+
+                <strong>
+                    Viernes de 14:00 a 18:00
+                </strong>
+
+            </div>
+
+        </div>
+
+        <!-- SACAR TURNO -->
+        <div class="card">
+
+            <h3 class="section-title">
+                Sacar Turno
+            </h3>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+                        Apellido y Nombre
+                    </label>
+
+                    <input type="text"
+                           id="nombre">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Tipo de consulta
+                    </label>
+
+                    <select id="tipo">
+
+                        <option value="">
+                            Seleccione
+                        </option>
+
+                        <option value="PRIMERA">
+                            Primera consulta
+                        </option>
+
+                        <option value="CONTROL">
+                            Control nutricional
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Fecha
+                    </label>
+
+                    <input type="date"
+                           id="fecha">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Horario
+                    </label>
+
+                    <select id="hora">
+
+                        <option>
+                            Seleccione una fecha
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <button onclick="sacarTurno()">
+
+                Reservar Turno
+
+            </button>
+
+           <!-- SEÑA -->
+<!-- CARD SEÑA -->
+
+<div class="card-senia">
+
+    <!-- HEADER -->
+
+    <div class="senia-header">
+
+        <div class="icono-senia">
+            <i class="fas fa-wallet"></i>
+        </div>
+
+        <div>
+
+            <h3>
+                Reserva de Turno
+            </h3>
+
+            <p>
+                Confirmá tu turno realizando la seña correspondiente
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- BODY -->
+
+    <div class="senia-body">
+
+        <!-- SEÑA -->
+
+        <div class="dato">
+
+            <div class="dato-top">
+
+                <i class="fas fa-money-bill-wave"></i>
+
+                <span class="label">
+                    Seña
+                </span>
+
+            </div>
+
+            <span class="valor">
+                $5000
+            </span>
+
+        </div>
+
+        <!-- ALIAS -->
+
+        <div class="dato">
+
+            <div class="dato-top">
+
+                <i class="fas fa-key"></i>
+
+                <span class="label">
+                    Alias
+                </span>
+
+            </div>
+
+            <div class="alias-inline">
+
+                <span class="valor alias-text">
+                    ludmilabenitez97
+                </span>
+
+                <button type="button" class="btn-copiar" onclick="copiarAlias()">
+                    📋
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- TITULAR -->
+
+        <div class="dato">
+
+            <div class="dato-top">
+
+                <i class="fas fa-user"></i>
+
+                <span class="label">
+                    Titular
+                </span>
+
+            </div>
+
+            <span class="valor">
+                Ludmila Liseth Benitez
+            </span>
+
+        </div>
+
+        <!-- BANCO -->
+
+        <div class="dato">
+
+            <div class="dato-top">
+
+                <i class="fas fa-building-columns"></i>
+
+                <span class="label">
+                    Banco
+                </span>
+
+            </div>
+
+            <span class="valor">
+                NBCH
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <div class="senia-footer">
+
+        <i class="fas fa-clock"></i>
+
+        <span>
+            El turno se libera automáticamente si no se acredita el pago dentro de las 24 hs.
+        </span>
+
+    </div>
+
+</div>
+        <!-- TURNOS HOY -->
+        <div class="card">
+
+            <h3 class="section-title">
+                Turnos de Hoy
+            </h3>
+
+            <div class="table-responsive">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Paciente</th>
+                            <th>Hora</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tablaHoy"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- LISTA -->
+        <div class="card">
+
+            <h3 class="section-title">
+                Lista de Turnos
+            </h3>
+
+            <div class="table-responsive">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Paciente</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                            <th>WhatsApp</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tablaTurnos"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="utils.js"></script>
+<script src="turnos.js"></script>
+
+</body>
+</html>

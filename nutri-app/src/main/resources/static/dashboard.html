@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard Nutricional</title>
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+       <div class="sidebar-top">
+
+    <div class="sidebar-logo">
+        🥗 NutriSystem
+    </div>
+
+    <div class="sidebar-user">
+
+        <div class="sidebar-avatar">
+            👩‍⚕️
+        </div>
+
+        <div class="sidebar-user-info">
+
+            <strong>
+                Lic. Benitez
+            </strong>
+
+            <span>
+                Nutricionista
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+        <nav class="sidebar-menu">
+
+            <a href="#" class="active">
+                📊 Dashboard
+            </a>
+
+            <a href="pacientes-adultos.html">
+                👤 Pacientes Adultos
+            </a>
+
+            <a href="pacientes-pediatricos.html">
+                👶 Pacientes Pediátricos
+            </a>
+
+            <a href="seguimiento.html">
+                📈 Seguimiento
+            </a>
+
+            <a href="plan-alimentario.html">
+                🍽️ Plan Alimentario
+            </a>
+
+            <a href="turnos.html">
+                📅 Turnos
+            </a>
+
+           
+
+        </nav>
+
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+
+        <div class="header">
+            Bienvenida, Lic. Benitez 👋
+        </div>
+
+        <!-- CARDS -->
+        <div class="cards">
+
+    <div class="card">
+
+        <div class="card-icon">
+            👤
+        </div>
+
+        <h3>Pacientes</h3>
+
+        <p id="totalPacientes">0</p>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-icon">
+            📅
+        </div>
+
+        <h3>Turnos</h3>
+
+        <p id="totalTurnos">0</p>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-icon">
+            🥗
+        </div>
+
+        <h3>Planes</h3>
+
+        <p id="totalPlanes">0</p>
+
+    </div>
+
+</div>
+
+        <!-- GRÁFICO -->
+        <div class="card" style="margin-top:25px;">
+
+            <h3>Turnos por día</h3>
+
+            <canvas id="graficoTurnos"></canvas>
+
+        </div>
+
+        <div class="volver" onclick="volverInicio()">
+            ← Volver al inicio
+        </div>
+
+    </main>
+
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const API = "http://localhost:8080";
+
+// 🔹 DASHBOARD
+function cargarDashboard() {
+
+    fetch(`${API}/pacientes`)
+        .then(res => res.json())
+        .then(data => {
+
+            document.getElementById(
+                "totalPacientes"
+            ).innerText = data.length;
+
+        });
+
+    fetch(`${API}/turnos`)
+        .then(res => res.json())
+        .then(data => {
+
+            document.getElementById(
+                "totalTurnos"
+            ).innerText = data.length;
+
+        });
+
+    fetch(`${API}/planes`)
+        .then(res => res.json())
+        .then(data => {
+
+            document.getElementById(
+                "totalPlanes"
+            ).innerText = data.length;
+
+        });
+}
+
+// 🔹 GRÁFICO
+function cargarGraficoTurnos() {
+
+    fetch(`${API}/turnos`)
+        .then(res => res.json())
+        .then(data => {
+
+            const conteo = {};
+
+            data.forEach(t => {
+
+                if (!t.fecha) return;
+
+                conteo[t.fecha] =
+                    (conteo[t.fecha] || 0) + 1;
+            });
+
+            const fechas = Object.keys(conteo);
+
+            const cantidades =
+                Object.values(conteo);
+
+            const ctx =
+                document.getElementById(
+                    "graficoTurnos"
+                );
+
+            new Chart(ctx, {
+
+                type: "bar",
+
+                data: {
+
+                    labels: fechas,
+
+                    datasets: [{
+
+                        label: "Turnos",
+
+                        data: cantidades
+
+                    }]
+                }
+            });
+
+        });
+}
+
+// 🔹 VOLVER
+function volverInicio() {
+
+    window.location.href = "inicio.html";
+}
+
+// INIT
+cargarDashboard();
+cargarGraficoTurnos();
+
+</script>
+
+</body>
+</html>

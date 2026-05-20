@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento Nutricional</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="sidebar-logo">
+                🥗 NutriSystem
+            </div>
+
+            <div class="sidebar-user">
+
+                <div class="sidebar-avatar">
+                    👩‍⚕️
+                </div>
+
+                <div class="sidebar-user-info">
+
+                    <strong>
+                        Lic. Benitez
+                    </strong>
+
+                    <span>
+                        Nutricionista
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="dashboard.html">
+                📊 Dashboard
+            </a>
+
+            <a href="pacientes-adultos.html">
+                👤 Pacientes Adultos
+            </a>
+
+            <a href="pacientes-pediatricos.html">
+                👶 Pacientes Pediátricos
+            </a>
+
+            <a href="seguimiento.html"
+               class="active">
+                📈 Seguimiento
+            </a>
+
+            <a href="plan-alimentario.html">
+                🍽️ Plan Alimentario
+            </a>
+
+            <a href="turnos.html">
+                📅 Turnos
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+
+        <h1>
+            Seguimiento Nutricional 📈
+        </h1>
+
+        <!-- CONSULTA -->
+        <div class="card">
+
+            <h3 class="section-title">
+                Consultar Evolución
+            </h3>
+
+            <label for="pacienteSelect">
+                Paciente
+            </label>
+
+            <select id="pacienteSelect">
+
+                <option value="">
+                    Seleccionar paciente
+                </option>
+
+            </select>
+
+            <div class="info-paciente">
+
+                <span>
+                    📏 Altura:
+                </span>
+
+                <strong id="alturaPaciente">
+                    -
+                </strong> cm
+
+            </div>
+
+        </div>
+
+        <!-- REGISTRO -->
+        <div class="card">
+
+            <h3 class="section-title">
+                Registrar Seguimiento
+            </h3>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+                        Fecha
+                    </label>
+
+                    <input type="date"
+                           id="fecha">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Peso (kg)
+                    </label>
+
+                    <input type="number"
+                            id="peso"
+                            oninput="calcularIMC()">
+                    
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        IMC
+                    </label>
+
+                    <input type="number"
+                           id="imc"
+                           step="0.1">
+
+                    <small id="clasificacionIMC"></small>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Masa Muscular
+                    </label>
+
+                    <input type="number"
+                           id="masaMuscular"
+                           step="0.1">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        % Grasa Corporal
+                    </label>
+
+                    <input type="number"
+                           id="grasaCorporal"
+                           step="0.1">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Grasa Visceral
+                    </label>
+
+                    <input type="number"
+                           id="grasaVisceral"
+                           step="0.1">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        TMB (kcal)
+                    </label>
+
+                    <input type="number"
+                           id="tmb">
+
+                </div>
+
+            </div>
+
+            <div class="form-group"
+                 style="margin-top:20px;">
+
+                <label>
+                    Observaciones
+                </label>
+
+                <textarea id="comentarios"></textarea>
+
+            </div>
+
+            <div style="
+                display:flex;
+                gap:15px;
+                margin-top:25px;
+                flex-wrap:wrap;
+            ">
+
+                <button onclick="guardarSeguimiento()">
+
+                    Guardar Seguimiento
+
+                </button>
+
+                <button onclick="cargarSeguimiento()">
+
+                    Ver Evolución
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- MÉTRICAS -->
+
+<div class="metricas-grid">
+
+    <!-- PESO -->
+    <div class="metrica-card peso-card">
+
+        <div class="metrica-icon">
+            ⚖️
+        </div>
+
+        <div>
+
+            <span class="metrica-label">
+                Peso Actual
+            </span>
+
+            <h3 id="cardPeso">
+                -- kg
+            </h3>
+
+            <p class="metrica-extra">
+                Último control
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- IMC -->
+    <div class="metrica-card imc-card">
+
+        <div class="metrica-icon imc-icon">
+            📏
+        </div>
+
+        <div>
+
+            <span class="metrica-label">
+                IMC
+            </span>
+
+            <h3 id="cardIMC">
+                --
+            </h3>
+
+            <p class="metrica-extra">
+                Índice corporal
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- MASA MUSCULAR -->
+    <div class="metrica-card musculo-card">
+
+        <div class="metrica-icon musculo-icon">
+            💪
+        </div>
+
+        <div>
+
+            <span class="metrica-label">
+                Masa Muscular
+            </span>
+
+            <h3 id="cardMusculo">
+                -- %
+            </h3>
+
+            <p class="metrica-extra">
+                Composición muscular
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- GRASA CORPORAL -->
+    <div class="metrica-card grasa-card">
+
+        <div class="metrica-icon grasa-icon">
+            🔥
+        </div>
+
+        <div>
+
+            <span class="metrica-label">
+                Grasa Corporal
+            </span>
+
+            <h3 id="cardGrasa">
+                -- %
+            </h3>
+
+            <p class="metrica-extra">
+                Último análisis
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+        <!-- GRÁFICO -->
+        <div class="card">
+
+            <h3 class="section-title">
+                Evolución del Paciente
+            </h3>
+
+            <div class="grafico-container">
+
+            <canvas id="grafico"></canvas>
+
+</div>
+
+        </div>
+
+        <!-- HISTORIAL -->
+        <div class="card">
+
+            <h3 class="section-title">
+                Historial de Seguimiento
+            </h3>
+
+            <div id="tablaSeguimiento"></div>
+
+        </div>
+
+    </main>
+
+</div>
+    
+
+    <script src="script.js"></script>
+</body>
+</html>

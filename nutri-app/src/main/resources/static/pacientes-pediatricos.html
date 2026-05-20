@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Pacientes Pediátricos</title>
+
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="sidebar-logo">
+                🥗 NutriSystem
+            </div>
+
+            <div class="sidebar-user">
+
+                <div class="sidebar-avatar">
+                    👩‍⚕️
+                </div>
+
+                <div class="sidebar-user-info">
+
+                    <strong>
+                        Lic. Benitez
+                    </strong>
+
+                    <span>
+                        Nutricionista
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="dashboard.html">
+                📊 Dashboard
+            </a>
+
+            <a href="pacientes-adultos.html">
+                👤 Pacientes Adultos
+            </a>
+
+            <a href="pacientes-pediatricos.html"
+               class="active">
+                👶 Pacientes Pediátricos
+            </a>
+
+            <a href="seguimiento.html">
+                📈 Seguimiento
+            </a>
+
+            <a href="plan-alimentario.html">
+                🍽️ Plan Alimentario
+            </a>
+
+            <a href="turnos.html">
+                📅 Turnos
+            </a>
+
+            <a href="pagos.html">
+                💳 Pagos
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+
+        <h1>Pacientes Pediátricos 👶</h1>
+
+        <div class="card">
+
+            <!-- DATOS PACIENTE -->
+            <h3 class="section-title">
+                Datos del paciente
+            </h3>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+                        Apellido y Nombre
+                    </label>
+
+                    <input id="nombre">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        DNI
+                    </label>
+
+                    <input id="dni">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Fecha de nacimiento
+                    </label>
+
+                    <input type="date"
+                           id="fechaNacimiento">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Edad
+                    </label>
+
+                    <input id="edad"
+                           readonly>
+
+                </div>
+
+            </div>
+
+            <!-- TUTOR -->
+            <h3 class="section-title">
+                Datos del tutor
+            </h3>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+                        Nombre del padre/madre
+                    </label>
+
+                    <input id="tutor">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Teléfono
+                    </label>
+
+                    <input id="telefono">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input id="email">
+
+                </div>
+
+            </div>
+
+            <!-- ENTREVISTA -->
+            <h3 class="section-title">
+                Entrevista Nutricional
+            </h3>
+
+            <div class="form-group">
+
+                <textarea id="entrevista"></textarea>
+
+            </div>
+
+            <!-- NACIMIENTO -->
+            <h3 class="section-title">
+                Datos de nacimiento
+            </h3>
+
+            <div class="grupo">
+
+                <p class="titulo">
+                    Nacimiento
+                </p>
+
+                <label>
+                    <input type="checkbox"
+                           id="normal">
+                    Normal
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="asistido">
+                    Asistido
+                </label>
+
+                <p class="titulo">
+                    Edad gestacional
+                </p>
+
+                <label>
+                    <input type="checkbox"
+                           id="termino">
+                    A término
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="prematuro">
+                    Prematuro
+                </label>
+
+                <p class="titulo">
+                    Lactancia
+                </p>
+
+                <label>
+                    <input type="checkbox"
+                           id="exclusiva">
+                    Exclusiva
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="mixta">
+                    Mixta
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="artificial">
+                    Artificial
+                </label>
+
+            </div>
+
+            <!-- INDICADORES -->
+            <h3 class="section-title">
+                Indicadores Pediátricos
+            </h3>
+
+            <div class="row">
+
+                <div class="form-group">
+
+                    <label>
+                        IMC / Edad
+                    </label>
+
+                    <input type="text"
+                           id="imcEdad">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Peso / Edad
+                    </label>
+
+                    <input type="text"
+                           id="pesoEdad">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Talla / Edad
+                    </label>
+
+                    <input type="text"
+                           id="tallaEdad">
+
+                </div>
+
+            </div>
+
+            <button
+                onclick="guardarPacientePediatrico()">
+
+                Guardar Paciente
+
+            </button>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

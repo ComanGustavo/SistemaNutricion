@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Alimentario</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <h1>Sistema de Gestión Nutricional</h1>
+    <h2>Plan Alimentario</h2>
+
+    <!-- ===================================== -->
+    <!-- CARD PRINCIPAL -->
+    <!-- ===================================== -->
+
+    <div class="card">
+
+        <h3>Plan Alimentario (15 días)</h3>
+
+        <input type="hidden" id="planId">
+
+        <!-- ===================================== -->
+        <!-- TOP FORMULARIO -->
+        <!-- ===================================== -->
+
+        <div class="top-formulario">
+
+            <!-- PACIENTE -->
+
+            <div class="campo-form">
+
+                <label>Paciente:</label>
+
+                <select id="paciente"></select>
+
+            </div>
+
+            <!-- FECHA -->
+
+            <div class="campo-form">
+
+                <label>Fecha de inicio:</label>
+
+                <input type="date" id="fecha">
+
+            </div>
+
+            <!-- PLANTILLA -->
+
+            <div class="campo-form">
+
+    <label>Plantilla:</label>
+
+    <select id="plantilla"
+            onchange="aplicarPlantilla()">
+
+        <option value="">
+            Seleccionar plantilla
+        </option>
+
+        <!-- OBJETIVOS -->
+
+        <option value="descenso">
+            Descenso de peso
+        </option>
+
+        <option value="hipertrofia">
+            Hipertrofia
+        </option>
+
+        <option value="mantenimiento">
+            Mantenimiento
+        </option>
+
+        <option value="deportivo">
+            Deportivo
+        </option>
+
+        <!-- PATOLOGÍAS -->
+
+        <option value="diabetes">
+            Diabetes
+        </option>
+
+        <option value="hipertension">
+            Hipertensión
+        </option>
+
+        <option value="colesterol">
+            Colesterol / Triglicéridos
+        </option>
+
+        <option value="celiaquia">
+            Celiaquía
+        </option>
+
+        <option value="insulina">
+            Resistencia a la insulina
+        </option>
+
+        <!-- ESTILOS -->
+
+        <option value="vegetariano">
+            Vegetariano
+        </option>
+
+        <option value="vegano">
+            Vegano
+        </option>
+
+        <!-- ETAPAS -->
+
+        <option value="embarazo">
+            Embarazo
+        </option>
+
+        <option value="pediatrico">
+            Pediátrico
+        </option>
+
+    </select>
+
+    </div>
+
+</div>
+
+        <!-- ===================================== -->
+        <!-- TABS -->
+        <!-- ===================================== -->
+
+        <div class="tabs">
+
+            <button class="tab-btn active"
+                    onclick="mostrarTab(1)">
+
+                <i class="fa-solid fa-calendar-days"></i>
+                Días 1–5
+
+            </button>
+
+            <button class="tab-btn"
+                    onclick="mostrarTab(2)">
+
+                <i class="fa-solid fa-calendar-days"></i>
+                Días 6–10
+
+            </button>
+
+            <button class="tab-btn"
+                    onclick="mostrarTab(3)">
+
+                <i class="fa-solid fa-calendar-days"></i>
+                Días 11–15
+
+            </button>
+
+        </div>
+
+        <!-- ===================================== -->
+        <!-- TAB 1 -->
+        <!-- ===================================== -->
+
+        <div id="tab1"
+             class="tab-content active-tab">
+
+            <div id="contenedorDias1"
+                 class="plan-grid">
+            </div>
+
+        </div>
+
+        <!-- ===================================== -->
+        <!-- TAB 2 -->
+        <!-- ===================================== -->
+
+        <div id="tab2"
+             class="tab-content">
+
+            <div id="contenedorDias2"
+                 class="plan-grid">
+            </div>
+
+        </div>
+
+        <!-- ===================================== -->
+        <!-- TAB 3 -->
+        <!-- ===================================== -->
+
+        <div id="tab3"
+             class="tab-content">
+
+            <div id="contenedorDias3"
+                 class="plan-grid">
+            </div>
+
+        </div>
+
+        <!-- ===================================== -->
+        <!-- COLACIONES -->
+        <!-- ===================================== -->
+
+        <label>Colaciones:</label>
+
+        <textarea id="colaciones"></textarea>
+
+        <!-- ===================================== -->
+        <!-- OBSERVACIONES -->
+        <!-- ===================================== -->
+
+        <label>Observaciones:</label>
+
+        <textarea id="recomendaciones"></textarea>
+
+        <!-- ===================================== -->
+        <!-- BOTONES -->
+        <!-- ===================================== -->
+
+        <div class="acciones">
+
+            <button class="btn-guardar"
+                    onclick="guardarPlan()">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+                Guardar Plan
+
+            </button>
+
+            <button class="btn-limpiar"
+                    onclick="limpiarFormularioPlan()">
+
+                <i class="fa-solid fa-broom"></i>
+                Limpiar
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- BUSCADOR -->
+    <!-- ===================================== -->
+
+    <div class="card">
+
+        <h3>Buscar Planes por Paciente</h3>
+
+        <label for="pacienteBusqueda">
+            Paciente:
+        </label>
+
+        <select id="pacienteBusqueda">
+
+            <option value="">
+                Seleccione un paciente
+            </option>
+
+        </select>
+
+        <button onclick="buscarPlanesPorPaciente()">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Ver Planes
+
+        </button>
+
+        <div id="listaPlanes"></div>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- SCRIPT -->
+<!-- ===================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const contenedor1 =
+        document.getElementById("contenedorDias1");
+
+    const contenedor2 =
+        document.getElementById("contenedorDias2");
+
+    const contenedor3 =
+        document.getElementById("contenedorDias3");
+
+    for (let i = 1; i <= 15; i++) {
+
+        const div = document.createElement("div");
+
+        div.classList.add("dia-card");
+
+        div.innerHTML = `
+
+            <div class="dia-header">
+
+                <h4>🍽️ Día ${i}</h4>
+
+                <button
+                    class="btn-duplicar"
+                    onclick="duplicarDia(${i})"
+                >
+                    <i class="fa-solid fa-copy"></i>
+                    Duplicar
+                </button>
+
+            </div>
+
+            <label>Desayuno</label>
+
+            <textarea
+                id="desayuno_${i}"
+                placeholder="Desayuno">
+            </textarea>
+
+            <label>Media mañana</label>
+
+            <textarea
+                id="media_${i}"
+                placeholder="Media mañana">
+            </textarea>
+
+            <label>Almuerzo</label>
+
+            <textarea
+                id="almuerzo_${i}"
+                placeholder="Almuerzo">
+            </textarea>
+
+            <label>Merienda</label>
+
+            <textarea
+                id="merienda_${i}"
+                placeholder="Merienda">
+            </textarea>
+
+            <label>Cena</label>
+
+            <textarea
+                id="cena_${i}"
+                placeholder="Cena">
+            </textarea>
+
+        `;
+
+        if (i <= 5) {
+
+            contenedor1.appendChild(div);
+
+        }
+        else if (i <= 10) {
+
+            contenedor2.appendChild(div);
+
+        }
+        else {
+
+            contenedor3.appendChild(div);
+
+        }
+    }
+
+});
+
+
+// =====================================
+// MOSTRAR TAB
+// =====================================
+
+function mostrarTab(numero){
+
+    const tabs =
+        document.querySelectorAll(".tab-content");
+
+    tabs.forEach(tab => {
+        tab.classList.remove("active-tab");
+    });
+
+    const botones =
+        document.querySelectorAll(".tab-btn");
+
+    botones.forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    document
+        .getElementById("tab" + numero)
+        .classList.add("active-tab");
+
+    botones[numero - 1]
+        .classList.add("active");
+}
+
+
+// =====================================
+// DUPLICAR DÍA
+// =====================================
+
+function duplicarDia(dia){
+
+    if (dia >= 15) {
+
+        alert("El día 15 no puede duplicarse");
+        return;
+    }
+
+    const desayuno =
+        document.getElementById(`desayuno_${dia}`).value;
+
+    const media =
+        document.getElementById(`media_${dia}`).value;
+
+    const almuerzo =
+        document.getElementById(`almuerzo_${dia}`).value;
+
+    const merienda =
+        document.getElementById(`merienda_${dia}`).value;
+
+    const cena =
+        document.getElementById(`cena_${dia}`).value;
+
+    document.getElementById(`desayuno_${dia + 1}`).value =
+        desayuno;
+
+    document.getElementById(`media_${dia + 1}`).value =
+        media;
+
+    document.getElementById(`almuerzo_${dia + 1}`).value =
+        almuerzo;
+
+    document.getElementById(`merienda_${dia + 1}`).value =
+        merienda;
+
+    document.getElementById(`cena_${dia + 1}`).value =
+        cena;
+
+    alert(`Día ${dia} duplicado al Día ${dia + 1}`);
+}
+
+
+// =====================================
+// PLANTILLAS
+// =====================================
+
+function aplicarPlantilla(){
+
+    const plantilla =
+        document.getElementById("plantilla").value;
+
+    for (let i = 1; i <= 15; i++) {
+
+        // =====================================
+        // DESCENSO
+        // =====================================
+
+        if (plantilla === "descenso") {
+
+            document.getElementById(`desayuno_${i}`).value =
+                "Café o té + tostadas integrales";
+
+            document.getElementById(`media_${i}`).value =
+                "1 fruta";
+
+            document.getElementById(`almuerzo_${i}`).value =
+                "Pollo con ensalada";
+
+            document.getElementById(`merienda_${i}`).value =
+                "Yogur descremado";
+
+            document.getElementById(`cena_${i}`).value =
+                "Verduras + proteína";
+        }
+
+        // =====================================
+        // HIPERTROFIA
+        // =====================================
+
+        if (plantilla === "hipertrofia") {
+
+            document.getElementById(`desayuno_${i}`).value =
+                "Avena + banana + leche";
+
+            document.getElementById(`media_${i}`).value =
+                "Frutos secos";
+
+            document.getElementById(`almuerzo_${i}`).value =
+                "Arroz + carne";
+
+            document.getElementById(`merienda_${i}`).value =
+                "Batido proteico";
+
+            document.getElementById(`cena_${i}`).value =
+                "Pasta + proteína";
+        }
+
+        // =====================================
+        // MANTENIMIENTO
+        // =====================================
+
+        if (plantilla === "mantenimiento") {
+
+            document.getElementById(`desayuno_${i}`).value =
+                "Infusión + tostadas";
+
+            document.getElementById(`media_${i}`).value =
+                "Fruta";
+
+            document.getElementById(`almuerzo_${i}`).value =
+                "Carne magra + arroz + ensalada";
+
+            document.getElementById(`merienda_${i}`).value =
+                "Yogur + cereales";
+
+            document.getElementById(`cena_${i}`).value =
+                "Verduras + proteína";
+        }
+
+        // =====================================
+        // DEPORTIVO
+        // =====================================
+
+        if (plantilla === "deportivo") {
+
+            document.getElementById(`desayuno_${i}`).value =
+                "Avena + frutas + leche";
+
+            document.getElementById(`media_${i}`).value =
+                "Banana + frutos secos";
+
+            document.getElementById(`almuerzo_${i}`).value =
+                "Pasta + pollo";
+
+            document.getElementById(`merienda_${i}`).value =
+                "Batido energético";
+
+            document.getElementById(`cena_${i}`).value =
+                "Arroz + pescado";
+        }
+
+        // =====================================
+        // DIABETES
+        // =====================================
+
+        if (plantilla === "diabetes") {
+
+            document.getElementById(`desayuno_${i}`).value =
+                "Infusión sin azúcar";
+
+            document.getElementById(`media_${i}`).value =
+                "Fruta";
+
+            document.getElementById(`almuerzo_${i}`).value =
+                "Proteína + verduras";
+
+            document.getElementById(`merienda_${i}`).value =
+                "Yogur sin azúcar";
+
+            document.getElementById(`cena_${i}`).value =
+                "Ensalada + pollo";
+        }
+
+        // =====================================
+        // HIPERTENSIÓN
+        // =====================================
+
+        if (plantilla === "hipertension") {
+
+            document.getElementById(`desayuno_${i}`).value =
+                "Infusión + frutas";
+
+            document.getElementById(`media_${i}`).value =
+                "Fruta fresca";
+
+            document.getElementById(`almuerzo_${i}`).value =
+                "Carne magra sin sal + verduras";
+
+            document.getElementById(`merienda_${i}`).value =
+                "Yogur descremado";
+
+            document.getElementById(`cena_${i}`).value =
+                "Vegetales al vapor";
+        }
+
+        // =====================================
+        // COLESTEROL
+        // =====================================
+
+        if (plantilla === "colesterol") {
+
+            document.getElementById(`desayuno_${i}`).value =
+                "Avena + frutas";
+
+            document.getElementById(`media_${i}`).value =
+                "Fruta";
+
+            document.getElementById(`almuerzo_${i}`).value =
+                "Pescado + ensalada";
+
+            document.getElementById(`merienda_${i}`).value =
+                "Yogur descremado";
+
+            document.getElementById(`cena_${i}`).value =
+                "Verduras + pollo";
+        }
+
+        // =====================================
+        // CELIAQUÍA
+        // =====================================
+
+        if (plantilla === "celiaquia") {
+
+            document.getElementById(`desayuno_${i}`).value =
+                "Infusión + pan sin TACC";
+
+            document.getElementById(`media_${i}`).value =
+                "Fruta";
+
+            document.getElementById(`almuerzo_${i}`).value =
+                "Arroz + pollo";
+
+            document.getElementById(`merienda_${i}`).value =
+                "Yogur sin gluten";
+
+            document.getElementById(`cena_${i}`).value =
+                "Verduras + carne";
+        }
+
+        // =====================================
+        // INSULINA
+        // =====================================
+
+        if (plantilla === "insulina") {
+
+            document.getElementById(`desayuno_${i}`).value =
+                "Proteína + fibra";
+
+            document.getElementById(`media_${i}`).value =
+                "Fruta moderada";
+
+            document.getElementById(`almuerzo_${i}`).value =
+                "Proteína + verduras";
+
+            document.getElementById(`merienda_${i}`).value =
+                "Yogur natural";
+
+            document.getElementById(`cena_${i}`).value =
+                "Ensalada + pescado";
+        }
+
+        // =====================================
+        // VEGETARIANO
+        // =====================================
+
+        if (plantilla === "vegetariano") {
+
+            document.getElementById(`desayuno_${i}`).value =
+                "Leche vegetal + cereales";
+
+            document.getElementById(`media_${i}`).value =
+                "Fruta";
+
+            document.getElementById(`almuerzo_${i}`).value =
+                "Legumbres + arroz";
+
+            document.getElementById(`merienda_${i}`).value =
+                "Yogur vegetal";
+
+            document.getElementById(`cena_${i}`).value =
+                "Tortilla de verduras";
+        }
+
+        // =====================================
+        // VEGANO
+        // =====================================
+
+        if (plantilla === "vegano") {
+
+            document.getElementById(`desayuno_${i}`).value =
+                "Leche vegetal + avena";
+
+            document.getElementById(`media_${i}`).value =
+                "Fruta";
+
+            document.getElementById(`almuerzo_${i}`).value =
+                "Legumbres + quinoa";
+
+            document.getElementById(`merienda_${i}`).value =
+                "Frutos secos";
+
+            document.getElementById(`cena_${i}`).value =
+                "Vegetales salteados";
+        }
+
+        // =====================================
+        // EMBARAZO
+        // =====================================
+
+        if (plantilla === "embarazo") {
+
+            document.getElementById(`desayuno_${i}`).value =
+                "Leche + tostadas";
+
+            document.getElementById(`media_${i}`).value =
+                "Fruta";
+
+            document.getElementById(`almuerzo_${i}`).value =
+                "Carne + verduras";
+
+            document.getElementById(`merienda_${i}`).value =
+                "Yogur + frutas";
+
+            document.getElementById(`cena_${i}`).value =
+                "Proteína + vegetales";
+        }
+
+        // =====================================
+        // PEDIÁTRICO
+        // =====================================
+
+        if (plantilla === "pediatrico") {
+
+            document.getElementById(`desayuno_${i}`).value =
+                "Leche + cereales";
+
+            document.getElementById(`media_${i}`).value =
+                "Fruta";
+
+            document.getElementById(`almuerzo_${i}`).value =
+                "Milanesa + puré";
+
+            document.getElementById(`merienda_${i}`).value =
+                "Yogur + galletas";
+
+            document.getElementById(`cena_${i}`).value =
+                "Tarta de verduras";
+        }
+    }
+
+    alert("Plantilla aplicada correctamente");
+}
+
+</script>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- ===================================== -->
+<!-- JS -->
+<!-- ===================================== -->
+
+<script src="/logo.js"></script>
+<script src="/script.js"></script>
+
+</body>
+</html>
