@@ -791,22 +791,96 @@ body{
 }
 
 /* =========================================
+   BOTON MOBILE
+========================================= */
+
+.menu-toggle{
+
+    display:none;
+
+    position:fixed;
+
+    top:18px;
+    left:18px;
+
+    width:48px;
+    height:48px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:rgba(22,163,74,0.95);
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    z-index:2001;
+
+    box-shadow:
+        0 10px 24px rgba(0,0,0,0.18);
+
+    backdrop-filter:blur(10px);
+
+    transition:all .3s ease;
+}
+
+.menu-toggle:hover{
+
+    transform:scale(1.05);
+}
+
+/* =========================================
+   OVERLAY
+========================================= */
+
+.sidebar-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,0.45);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.3s ease;
+
+    z-index:1500;
+
+    backdrop-filter:blur(3px);
+}
+
+.sidebar-overlay.active{
+
+    opacity:1;
+
+    visibility:visible;
+}
+
+/* =========================================
    SIDEBAR
 ========================================= */
 
 .sidebar{
 
-    width:260px;
+    width:270px;
 
-    background:linear-gradient(
-        180deg,
-        var(--color-primario),
-        var(--color-primario-hover)
-    );
+    background:
+        linear-gradient(
+            180deg,
+            #16a34a 0%,
+            #15803d 100%
+        );
 
     color:white;
 
-    padding:30px 20px;
+    padding:28px 20px;
 
     position:fixed;
 
@@ -814,26 +888,142 @@ body{
     top:0;
     bottom:0;
 
-    box-shadow:
-        6px 0 18px rgba(0,0,0,0.08);
+    overflow-y:auto;
 
-    z-index:1000;
+    box-shadow:
+        10px 0 35px rgba(0,0,0,0.12);
+
+    z-index:2000;
+
+    transition:
+        transform .35s ease,
+        width .3s ease;
+
+    border-right:
+        1px solid rgba(255,255,255,0.08);
 }
 
-/* LOGO */
+/* SCROLL */
+
+.sidebar::-webkit-scrollbar{
+
+    width:6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:
+        rgba(255,255,255,0.18);
+
+    border-radius:20px;
+}
+
+/* =========================================
+   LOGO
+========================================= */
 
 .sidebar-logo{
 
-    font-size:24px;
+    font-size:30px;
 
-    font-weight:700;
+    font-weight:800;
 
-    margin-bottom:40px;
+    margin-bottom:35px;
 
     text-align:center;
+
+    letter-spacing:-1px;
 }
 
-/* MENÚ */
+/* =========================================
+   TOP
+========================================= */
+
+.sidebar-top{
+
+    margin-bottom:35px;
+}
+
+/* =========================================
+   USUARIO
+========================================= */
+
+.sidebar-user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:16px;
+
+    border-radius:22px;
+
+    background:
+        rgba(255,255,255,0.10);
+
+    border:
+        1px solid rgba(255,255,255,0.10);
+
+    backdrop-filter:blur(12px);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,0.06);
+}
+
+/* =========================================
+   AVATAR
+========================================= */
+
+.sidebar-avatar{
+
+    width:58px;
+    height:58px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:
+        rgba(255,255,255,0.18);
+
+    font-size:26px;
+
+    flex-shrink:0;
+}
+
+/* =========================================
+   INFO
+========================================= */
+
+.sidebar-user-info{
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+.sidebar-user-info strong{
+
+    font-size:16px;
+
+    font-weight:700;
+}
+
+.sidebar-user-info span{
+
+    font-size:13px;
+
+    opacity:.88;
+}
+
+/* =========================================
+   MENU
+========================================= */
 
 .sidebar-menu{
 
@@ -844,32 +1034,85 @@ body{
     gap:10px;
 }
 
-/* LINKS */
+/* =========================================
+   LINKS
+========================================= */
 
 .sidebar-menu a{
+
+    position:relative;
 
     text-decoration:none;
 
     color:white;
 
-    padding:14px 16px;
+    padding:15px 18px;
 
-    border-radius:14px;
+    border-radius:16px;
 
-    transition:var(--transition);
+    transition:all .3s ease;
 
-    font-weight:500;
+    font-weight:600;
 
     display:flex;
 
     align-items:center;
 
-    gap:10px;
+    gap:12px;
+
+    overflow:hidden;
+}
+
+/* EFECTO HOVER */
+
+.sidebar-menu a::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.12),
+            rgba(255,255,255,0.03)
+        );
+
+    opacity:0;
+
+    transition:.3s ease;
+}
+
+.sidebar-menu a:hover::before{
+
+    opacity:1;
 }
 
 .sidebar-menu a:hover{
 
-    background:rgba(255,255,255,0.14);
+    transform:translateX(6px);
+
+    background:
+        rgba(255,255,255,0.10);
+
+    box-shadow:
+        0 8px 18px rgba(0,0,0,0.10);
+}
+
+/* =========================================
+   ACTIVO
+========================================= */
+
+.sidebar-menu a.active{
+
+    background:
+        rgba(255,255,255,0.16);
+
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.10),
+        0 8px 20px rgba(0,0,0,0.12);
 
     transform:translateX(4px);
 }
@@ -880,34 +1123,85 @@ body{
 
 .main-content{
 
-    margin-left:260px;
+    margin-left:270px;
 
-    width:100%;
+    width:calc(100% - 270px);
 
     padding:30px;
+
+    transition:.3s ease;
 }
 
 /* =========================================
-   RESPONSIVE
+   TABLET
+========================================= */
+
+@media(max-width:1024px){
+
+    .sidebar{
+
+        width:240px;
+    }
+
+    .main-content{
+
+        margin-left:240px;
+    }
+}
+
+/* =========================================
+   MOBILE
 ========================================= */
 
 @media(max-width:768px){
 
+    .menu-toggle{
+
+        display:flex;
+
+        align-items:center;
+        justify-content:center;
+
+       top:28px;
+        left:20px;
+    }
+
     .sidebar{
 
-        width:100%;
+        transform:translateX(-100%);
 
-        height:auto;
+        width:280px;
+    }
 
-        position:relative;
+    .sidebar.active{
+
+        transform:translateX(0);
     }
 
     .main-content{
 
         margin-left:0;
+
+        width:100%;
+
+        padding:80px 20px 20px;
+    }
+
+    .sidebar-logo{
+
+        text-align:left;
+    }
+
+    .sidebar-user{
+
+        margin-top:10px;
+    }
+
+    .sidebar-menu{
+
+        margin-top:25px;
     }
 }
-
 
 /* =========================================
    DASHBOARD
@@ -1179,105 +1473,6 @@ body{
     }
 }
 
-/* =========================================
-   RESPONSIVE MOBILE
-========================================= */
-
-@media(max-width:768px){
-
-    body{
-
-        padding:0;
-    }
-
-    .layout{
-
-        flex-direction:column;
-    }
-
-    /* SIDEBAR */
-
-    .sidebar{
-
-        position:relative;
-
-        width:100%;
-
-        height:auto;
-
-        border-radius:0;
-
-        padding:20px;
-    }
-
-    .sidebar-logo{
-
-        text-align:center;
-    }
-
-    .sidebar-user{
-
-        justify-content:center;
-    }
-
-    .sidebar-menu{
-
-        margin-top:20px;
-    }
-
-    .sidebar-menu a{
-
-        justify-content:center;
-    }
-
-    /* CONTENIDO */
-
-    .main-content{
-
-        margin-left:0;
-
-        width:100%;
-
-        padding:20px;
-    }
-
-    /* HEADER */
-
-    .header{
-
-        font-size:24px;
-
-        text-align:center;
-    }
-
-    /* CARDS */
-
-    .cards{
-
-        grid-template-columns:1fr;
-    }
-
-    .cards .card{
-
-        min-height:160px;
-    }
-
-    /* TABLAS */
-
-    table{
-
-        display:block;
-
-        overflow-x:auto;
-    }
-
-    /* BOTONES */
-
-    button{
-
-        width:100%;
-    }
-}
 
 
 /* =========================================
@@ -1371,6 +1566,307 @@ textarea{
         repeat(auto-fit,minmax(220px,1fr));
 
     gap:20px;
+}
+
+
+
+/* =========================================
+   FORMULARIOS PREMIUM
+========================================= */
+
+/* TITULOS */
+
+.section-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    margin-bottom:22px;
+
+    color:#166534;
+}
+
+/* LINEA */
+
+.section-line{
+
+    width:8px;
+    height:32px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #22c55e,
+            #15803d
+        );
+
+    box-shadow:
+        0 4px 12px rgba(34,197,94,0.35);
+}
+
+/* FORM GRID */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(240px,1fr));
+
+    gap:22px;
+
+    margin-bottom:30px;
+}
+
+/* GROUP */
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+}
+
+/* LABEL */
+
+.form-group label{
+
+    font-weight:600;
+
+    color:#374151;
+
+    font-size:15px;
+}
+
+/* INPUTS */
+
+.form-group input,
+.form-group textarea,
+input[type="file"]{
+
+    width:100%;
+
+    padding:16px 18px;
+
+    border-radius:18px;
+
+    border:
+        1px solid #d1d5db;
+
+    background:
+        rgba(255,255,255,0.96);
+
+    font-size:15px;
+
+    transition:all .28s ease;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.03);
+}
+
+/* TEXTAREA */
+
+textarea{
+
+    min-height:140px;
+
+    resize:vertical;
+}
+
+/* HOVER */
+
+.form-group input:hover,
+.form-group textarea:hover{
+
+    border-color:#86efac;
+}
+
+/* FOCUS */
+
+.form-group input:focus,
+.form-group textarea:focus{
+
+    outline:none;
+
+    border-color:#22c55e;
+
+    box-shadow:
+        0 0 0 4px rgba(34,197,94,0.12);
+}
+
+/* READONLY */
+
+input[readonly]{
+
+    background:#f3f4f6;
+
+    font-weight:700;
+
+    color:#15803d;
+}
+
+/* BOTONES */
+
+button{
+
+    border:none;
+
+    border-radius:18px;
+
+    padding:16px 24px;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    background:
+        linear-gradient(
+            135deg,
+            #22c55e,
+            #15803d
+        );
+
+    color:white;
+
+    transition:all .3s ease;
+
+    box-shadow:
+        0 10px 22px rgba(22,163,74,0.25);
+}
+
+/* HOVER BOTON */
+
+button:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 14px 28px rgba(22,163,74,0.30);
+}
+
+
+/* =========================================
+   BOTONES PREMIUM
+========================================= */
+
+/* CONTENEDOR BOTONES */
+
+.button-group{
+
+    display:flex;
+
+    gap:14px;
+
+    flex-wrap:wrap;
+
+    margin-top:25px;
+}
+
+/* BOTON BASE */
+
+.btn-primary,
+.btn-secondary{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    min-height:56px;
+
+    padding:16px 26px;
+
+    border:none;
+
+    border-radius:18px;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:all .28s ease;
+}
+
+/* PRINCIPAL */
+
+.btn-primary{
+
+    background:
+        linear-gradient(
+            135deg,
+            #22c55e,
+            #15803d
+        );
+
+    color:white;
+
+    box-shadow:
+        0 12px 24px rgba(22,163,74,0.25);
+}
+
+/* HOVER */
+
+.btn-primary:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 16px 30px rgba(22,163,74,0.35);
+}
+
+/* SECUNDARIO */
+
+.btn-secondary{
+
+    background:white;
+
+    color:#15803d;
+
+    border:
+        1px solid #bbf7d0;
+
+    box-shadow:
+        0 6px 18px rgba(0,0,0,0.05);
+}
+
+/* HOVER */
+
+.btn-secondary:hover{
+
+    background:#f0fdf4;
+
+    transform:
+        translateY(-2px);
+}
+
+/* CARDS FORMULARIO */
+
+.card{
+
+    border:
+        1px solid rgba(255,255,255,0.7);
+
+    backdrop-filter:blur(10px);
 }
 
 
@@ -1938,4 +2434,192 @@ textarea{
 .badge-bajo{
     background:#dbeafe;
     color:#1d4ed8;
+}
+
+
+
+/* =========================================
+   LISTA PACIENTES PREMIUM
+========================================= */
+
+#lista{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+    margin-top:25px;
+
+    padding:0;
+
+    list-style:none;
+}
+
+/* CARD */
+
+.paciente-card{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:22px;
+
+    border-radius:24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.95),
+            rgba(255,255,255,0.88)
+        );
+
+    border:
+        1px solid rgba(255,255,255,0.8);
+
+    transition:all .3s ease;
+
+    box-shadow:
+        0 8px 22px rgba(0,0,0,0.04);
+}
+
+/* HOVER */
+
+.paciente-card:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 16px 30px rgba(0,0,0,0.08);
+}
+
+/* INFO */
+
+.paciente-info{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+}
+
+/* AVATAR */
+
+.paciente-avatar{
+
+    width:68px;
+    height:68px;
+
+    border-radius:22px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(34,197,94,0.18),
+            rgba(34,197,94,0.08)
+        );
+}
+
+/* DATOS */
+
+.paciente-datos{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+}
+
+.paciente-datos h4{
+
+    margin:0;
+
+    font-size:20px;
+
+    color:#166534;
+}
+
+.paciente-datos span{
+
+    color:#6b7280;
+
+    font-size:14px;
+}
+
+/* ACCIONES */
+
+.paciente-actions{
+
+    display:flex;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+}
+
+/* DELETE */
+
+.btn-delete{
+
+    border:none;
+
+    border-radius:18px;
+
+    padding:16px 22px;
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:all .25s ease;
+}
+
+.btn-delete:hover{
+
+    background:#fecaca;
+
+    transform:
+        translateY(-2px);
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .paciente-card{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+    }
+
+    .paciente-actions{
+
+        width:100%;
+    }
+
+    .paciente-actions button{
+
+        flex:1;
+    }
 }

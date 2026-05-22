@@ -181,16 +181,54 @@ function cargarPacientes() {
                 const li = document.createElement("li");
                 li.className = "plan-item";
 
-                li.innerHTML = `
-                    <strong>${p.nombre}</strong> - DNI: ${p.dni} - Edad: ${p.edad}
-                    <button onclick="editarPaciente(${p.id})">
-                    Editar
+               li.innerHTML = `
+
+<div class="paciente-card">
+
+    <div class="paciente-info">
+
+        <div class="paciente-avatar">
+            👤
+        </div>
+
+        <div class="paciente-datos">
+
+            <h4>${p.nombre}</h4>
+
+            <span>
+                DNI: ${p.dni}
+            </span>
+
+            <span>
+                Edad: ${p.edad} años
+            </span>
+
+        </div>
+
+            </div>
+
+            <div class="paciente-actions">
+
+                <button
+                    class="btn-secondary"
+                    onclick="editarPaciente(${p.id})">
+
+                    ✏️ Editar
+
                 </button>
 
-                <button onclick="eliminarPaciente(${p.id})">
-                    Eliminar
+                <button
+                    class="btn-delete"
+                    onclick="eliminarPaciente(${p.id})">
+
+                    🗑️ Eliminar
+
                 </button>
-                `;
+
+            </div>
+
+        </div>
+        `;
 
                 lista.appendChild(li);
             });
@@ -1597,3 +1635,16 @@ async function eliminarArchivo(id) {
 
 
 
+// MENU MOBILE
+function toggleSidebar(){
+
+    document
+        .querySelector(".sidebar")
+        .classList
+        .toggle("active");
+
+    document
+        .querySelector(".sidebar-overlay")
+        .classList
+        .toggle("active");
+}

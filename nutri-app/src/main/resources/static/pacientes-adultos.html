@@ -94,11 +94,15 @@
         <!-- FORMULARIO -->
         <div class="card">
 
-            <!-- DATOS PERSONALES -->
-            <h3 class="section-title">
-                Datos Personales
-            </h3>
+             <!-- DATOS Personales -->
 
+                 <h3 class="section-title">
+
+                    <span class="section-line"></span>
+
+                    Datos Personales
+
+                </h3>
             <div class="form-grid">
 
                 <div class="form-group">
@@ -159,8 +163,12 @@
             </div>
 
             <!-- DATOS CORPORALES -->
-            <h3 class="section-title">
+           <h3 class="section-title">
+
+                <span class="section-line"></span>
+
                 Datos Corporales
+
             </h3>
 
             <div class="form-grid">
@@ -239,9 +247,12 @@
 
             <!-- ICC -->
             <h3 class="section-title">
-                Índice Cintura/Cadera
-            </h3>
 
+            <span class="section-line"></span>
+
+            Índice Cintura/Cadera
+
+            </h3>
             <div class="form-grid">
 
                 <div class="form-group">
@@ -284,7 +295,11 @@
 
             <!-- ENTREVISTA -->
             <h3 class="section-title">
+
+                <span class="section-line"></span>
+
                 Entrevista Nutricional
+
             </h3>
 
             <div class="form-group">
@@ -294,9 +309,11 @@
             </div>
 
             <!-- BOTÓN -->
-            <button onclick="guardarPaciente()">
+            <button
+                class="btn-primary"
+                onclick="guardarPaciente()">
 
-                Guardar Paciente
+                💾 Guardar Paciente
 
             </button>
 
@@ -306,7 +323,11 @@
         <div class="card">
 
             <h3 class="section-title">
+
+                <span class="section-line"></span>
+
                 Archivos del Paciente
+
             </h3>
 
             <input type="file"
@@ -315,9 +336,11 @@
             <p id="pacienteInfo"
                style="color:green;"></p>
 
-            <button onclick="subirArchivoPaciente()">
+            <button
+                class="btn-secondary"
+                onclick="subirArchivoPaciente()">
 
-                Subir Archivo
+                📤 Subir Archivo
 
             </button>
 
@@ -329,7 +352,11 @@
         <div class="card">
 
             <h3 class="section-title">
+
+                <span class="section-line"></span>
+
                 Lista de Pacientes
+
             </h3>
 
             <ul id="lista"></ul>
