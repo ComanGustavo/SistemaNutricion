@@ -25,19 +25,31 @@ function guardarPaciente() {
     const telefono = formatearTelefono(telefonoInput);
 
             if (!nombre) {
-                alert("Ingresá el nombre del paciente");
+                Swal.fire({
+                    icon: "warning",
+                    title: "Campo obligatorio",
+                    text: "Ingresá el nombre del paciente"
+                });
                 document.getElementById("nombre").focus();
                 return;
             }
 
             if (!dni) {
-                alert("Ingresá el DNI");
-                document.getElementById("dni").focus();
+                            Swal.fire({
+                icon: "warning",
+                title: "Campo obligatorio",
+                text: "Ingresá el DNI"
+            });
+            document.getElementById("dni").focus();
                 return;
             }
 
             if (!edad || edad <= 0) {
-                alert("Ingresá una edad válida");
+                        Swal.fire({
+                icon: "warning",
+                title: "Edad inválida",
+                text: "Ingresá una edad válida"
+            });
                 document.getElementById("edad").focus();
                 return;
             }
@@ -46,7 +58,11 @@ function guardarPaciente() {
                 document.getElementById("email")?.value;
 
             if (email && !email.includes("@")) {
-                alert("Ingresá un email válido");
+                        Swal.fire({
+                icon: "warning",
+                title: "Email inválido",
+                text: "Ingresá un email válido"
+            });
                 document.getElementById("email").focus();
                 return;
             }
@@ -55,7 +71,11 @@ function guardarPaciente() {
                 parseFloat(document.getElementById("peso")?.value);
 
             if (!isNaN(peso) && peso <= 0) {
-                alert("El peso debe ser mayor a 0");
+                            Swal.fire({
+                icon: "warning",
+                title: "Peso inválido",
+                text: "El peso debe ser mayor a 0"
+            });
                 document.getElementById("peso").focus();
                 return;
             }
@@ -64,7 +84,11 @@ function guardarPaciente() {
                 parseFloat(document.getElementById("altura")?.value);
 
             if (!isNaN(altura) && altura <= 0) {
-                alert("La altura debe ser mayor a 0");
+                            Swal.fire({
+                icon: "warning",
+                title: "Altura inválida",
+                text: "La altura debe ser mayor a 0"
+            });
                 document.getElementById("altura").focus();
                 return;
             }
@@ -114,14 +138,22 @@ function guardarPaciente() {
     document.getElementById("pacienteInfo").innerText =
         "Paciente guardado (ID: " + pacienteActualId + ")";
 
-    alert("Paciente guardado correctamente");
+            Swal.fire({
+            icon: "success",
+            title: "Paciente guardado",
+            text: "Paciente guardado correctamente"
+        });
 
     limpiarFormularioPaciente();
     cargarPacientes();
     })
     .catch(error => {
         console.error("Error al guardar paciente:", error);
-        alert("Error al guardar paciente");
+                Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error al guardar paciente"
+        });
     });
 }
 function limpiarFormularioPaciente() {
@@ -319,7 +351,11 @@ function cargarSeguimiento() {
 
     if (!pacienteId) {
 
-        alert("Seleccioná un paciente");
+                Swal.fire({
+            icon: "warning",
+            title: "Paciente no seleccionado",
+            text: "Seleccioná un paciente"
+        });
         return;
     }
 
@@ -483,7 +519,11 @@ function cargarSeguimiento() {
 
         console.error(error);
 
-        alert("Error al cargar seguimiento");
+                Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error al cargar seguimiento"
+        });
 
     });
 
@@ -587,13 +627,21 @@ function guardarPlan() {
     const recomendaciones = document.getElementById("recomendaciones")?.value;
 
     if (!pacienteId) {
-    alert("Seleccioná un paciente");
+            Swal.fire({
+            icon: "warning",
+            title: "Paciente no seleccionado",
+            text: "Seleccioná un paciente"
+        });
     document.getElementById("paciente").focus();
     return;
 }
 
 if (!fecha) {
-    alert("Seleccioná una fecha");
+            Swal.fire({
+            icon: "warning",
+            title: "Fecha requerida",
+            text: "Seleccioná una fecha"
+        });
     document.getElementById("fecha").focus();
     return;
 }
@@ -614,7 +662,11 @@ if (
     almuerzo1 === "" &&
     cena1 === ""
 ) {
-    alert("Completá al menos una comida del Día 1");
+        Swal.fire({
+            icon: "warning",
+            title: "Plan incompleto",
+            text: "Completá al menos una comida del Día 1"
+        });
     document.getElementById("desayuno_1").focus();
     return;
 }
@@ -661,17 +713,27 @@ if (
         }
         return res.json();
     })
-    .then(() => {
-        alert(planId 
-            ? "Plan alimentario actualizado correctamente" 
-            : "Plan alimentario guardado correctamente");
+   .then(() => {
 
-        limpiarFormularioPlan();
-        buscarPlanesPorPaciente();
-    })
+    Swal.fire({
+        icon: "success",
+        title: "Plan alimentario",
+        text: planId
+            ? "Plan alimentario actualizado correctamente"
+            : "Plan alimentario guardado correctamente"
+    });
+
+    limpiarFormularioPlan();
+    buscarPlanesPorPaciente();
+
+})
     .catch(error => {
         console.error("Error al guardar plan:", error);
-        alert("Error al guardar el plan alimentario");
+                Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error al guardar el plan alimentario"
+        });
     });
 }
 function limpiarFormularioPlan() {
@@ -704,7 +766,11 @@ function buscarPlanesPorPaciente() {
     const listaPlanes = document.getElementById("listaPlanes");
 
     if (!pacienteId) {
-        alert("Seleccioná un paciente");
+                    Swal.fire({
+                icon: "warning",
+                title: "Paciente no seleccionado",
+                text: "Seleccioná un paciente"
+            });
         return;
     }
 
@@ -806,13 +872,26 @@ function buscarPlanesPorPaciente() {
         })
         .catch(error => {
             console.error(error);
-            alert("Error al cargar planes");
+                        Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error al cargar planes"
+            });
         });
 }
 function eliminarPlan(id) {
-    if (!confirm("¿Seguro que querés eliminar este plan alimentario?")) {
-        return;
-    }
+            const resultado = await Swal.fire({
+            title: "¿Eliminar plan alimentario?",
+            text: "Esta acción no se puede deshacer",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar"
+        });
+
+        if (!resultado.isConfirmed) {
+            return;
+        }
 
     fetch(`${API_PLANES}/${id}`, {
         method: "DELETE"
@@ -821,12 +900,20 @@ function eliminarPlan(id) {
         if (!res.ok) {
             throw new Error("No se pudo eliminar el plan");
         }
-        alert("Plan eliminado correctamente");
+        Swal.fire({
+            icon: "success",
+            title: "Plan eliminado",
+            text: "Plan eliminado correctamente"
+        });
         buscarPlanesPorPaciente();
     })
     .catch(error => {
         console.error("Error al eliminar plan:", error);
-        alert("Error al eliminar el plan alimentario");
+                Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error al eliminar el plan alimentario"
+        });
     });
 }
 
@@ -897,19 +984,31 @@ function guardarSeguimiento() {
     const tmb = document.getElementById("tmb").value;
 
     if (!pacienteId) {
-    alert("Seleccioná un paciente");
+            Swal.fire({
+            icon: "warning",
+            title: "Paciente no seleccionado",
+            text: "Seleccioná un paciente"
+        });
     document.getElementById("pacienteSelect").focus();
     return;
 }
 
 if (!fecha) {
-    alert("Seleccioná una fecha");
+            Swal.fire({
+            icon: "warning",
+            title: "Fecha requerida",
+            text: "Seleccioná una fecha"
+        });
     document.getElementById("fecha").focus();
     return;
 }
 
 if (!peso || isNaN(peso) || peso <= 0) {
-    alert("Ingresá un peso válido");
+            Swal.fire({
+            icon: "warning",
+            title: "Peso inválido",
+            text: "Ingresá un peso válido"
+        });
     document.getElementById("peso").focus();
     return;
 }
@@ -939,7 +1038,11 @@ fetch("http://localhost:8080/seguimientos", {
 })
 .then(res => res.json())
 .then(data => {
-    alert("Seguimiento guardado");
+            Swal.fire({
+            icon: "success",
+            title: "Seguimiento guardado",
+            text: "Seguimiento guardado correctamente"
+        });
     cargarSeguimiento();
 })
 .catch(error => console.error("Error:", error));
@@ -1152,7 +1255,11 @@ function enviarWhatsApp(boton) {
     );
 
     if (!telefono) {
-        alert("El paciente no tiene teléfono registrado");
+                    Swal.fire({
+                icon: "warning",
+                title: "Teléfono no registrado",
+                text: "El paciente no tiene teléfono registrado"
+            });
         return;
     }
 
@@ -1366,7 +1473,11 @@ function guardarPacientePediatrico() {
     })
     .then(res => res.json())
     .then(() => {
-        alert("Paciente pediátrico guardado");
+                Swal.fire({
+            icon: "success",
+            title: "Paciente pediátrico guardado",
+            text: "Los datos se guardaron correctamente"
+        });
     })
     .catch(err => console.error(err));
 }
@@ -1398,7 +1509,11 @@ async function subirArchivoPaciente() {
     console.log("CLICK SUBIR");
 
     if (!pacienteActualId) {
-        alert("Primero guardá el paciente");
+                Swal.fire({
+            icon: "warning",
+            title: "Paciente no guardado",
+            text: "Primero guardá el paciente"
+        });
         return;
     }
 
@@ -1406,7 +1521,11 @@ async function subirArchivoPaciente() {
     const file = fileInput.files[0];
 
     if (!file) {
-        alert("Seleccioná un archivo");
+                    Swal.fire({
+                icon: "warning",
+                title: "Archivo no seleccionado",
+                text: "Seleccioná un archivo"
+            });
         return;
     }
 
@@ -1423,13 +1542,21 @@ async function subirArchivoPaciente() {
         const text = await res.text();
         console.log("RESPUESTA:", text);
 
-        alert("Archivo subido");
+            Swal.fire({
+            icon: "success",
+            title: "Archivo subido",
+            text: "El archivo se subió correctamente"
+        });
 
         cargarArchivos(pacienteActualId);
 
     } catch (error) {
         console.error("ERROR:", error);
-        alert("Error al subir archivo");
+                Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error al subir archivo"
+        });
     }
 }
 
