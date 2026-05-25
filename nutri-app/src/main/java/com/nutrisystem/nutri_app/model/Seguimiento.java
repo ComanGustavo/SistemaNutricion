@@ -21,6 +21,7 @@ public class Seguimiento {
     private String clasificacion;
 
     @ManyToOne
+    @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
     public Seguimiento() {}
