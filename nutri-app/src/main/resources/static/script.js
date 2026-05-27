@@ -12,6 +12,15 @@ window.onload = () => {
     cargarPacientes();
     cargarPacientesSelect();
     cargarPacientesEnSelects();
+
+    const fechaInput =
+    document.getElementById("fecha");
+
+if (fechaInput) {
+
+    fechaInput.value =
+        new Date().toISOString().split("T")[0];
+}
 };
 
 // 🔹 GUARDAR PACIENTE
@@ -207,7 +216,13 @@ async function cargarPacientes() {
 
     try {
 
-        const data = await apiGet("/pacientes");
+        const response = await fetch(API_PACIENTES);
+
+        if (!response.ok) {
+            throw new Error("Error cargando pacientes");
+        }
+
+        const data = await response.json();
 
         const lista = document.getElementById("lista");
 
@@ -235,13 +250,9 @@ async function cargarPacientes() {
 
                         <h4>${p.nombre}</h4>
 
-                        <span>
-                            DNI: ${p.dni}
-                        </span>
+                        <span>DNI: ${p.dni}</span>
 
-                        <span>
-                            Edad: ${p.edad} años
-                        </span>
+                        <span>Edad: ${p.edad} años</span>
 
                     </div>
 
@@ -276,8 +287,10 @@ async function cargarPacientes() {
 
     } catch (error) {
 
-        console.error("Error cargando pacientes:", error);
-
+        console.error(
+            "Error cargando pacientes:",
+            error
+        );
     }
 }
 function editarPaciente(id) {
@@ -470,15 +483,9 @@ function cargarSeguimiento() {
     const pacienteId =
         document.getElementById("pacienteSelect")?.value;
 
-    if (!pacienteId) {
-
-                Swal.fire({
-            icon: "warning",
-            title: "Paciente no seleccionado",
-            text: "Seleccioná un paciente"
-        });
-        return;
-    }
+  if (!pacienteId) {
+    return;
+}
 
     fetch(`${API}/seguimientos/paciente/${pacienteId}`)
 
@@ -494,6 +501,31 @@ function cargarSeguimiento() {
         .then(datos => {
 
     console.log("Seguimientos:", datos);
+
+    if (datos.length === 0) {
+
+    mostrarTablaSeguimiento([]);
+
+        Swal.fire({
+            icon: "info",
+            title: "Sin seguimientos",
+            text: "Este paciente todavía no tiene controles registrados",
+            timer: 1800,
+            showConfirmButton: false
+        });
+
+    document.getElementById("cardPeso").innerText = "-- kg";
+    document.getElementById("cardIMC").innerText = "--";
+    document.getElementById("cardMusculo").innerText = "-- %";
+    document.getElementById("cardGrasa").innerText = "-- %";
+
+   if (grafico) {
+    grafico.destroy();
+    grafico = null;
+}
+
+    return;
+}
 
     const ultimo = datos[datos.length - 1];
 
@@ -512,9 +544,22 @@ function cargarSeguimiento() {
     `${ultimo.grasaCorporal || "--"} %`;
     // 🔥 FILTRAR DATOS INVÁLIDOS
     datos = datos.filter(d =>
-        d.fecha !== null &&
-        d.peso !== null
+    d.fecha !== null &&
+    d.peso !== null
     );
+
+    if (datos.length === 0) {
+
+        Swal.fire({
+            icon: "info",
+            title: "Sin datos válidos",
+            text: "No hay datos suficientes para generar el gráfico",
+            timer: 2000,
+            showConfirmButton: false
+        });
+
+        return;
+    }
         // 🔥 ORDENAR POR FECHA
         datos.sort((a, b) =>
             new Date(a.fecha) - new Date(b.fecha)
@@ -626,13 +671,48 @@ function cargarSeguimiento() {
 
                 responsive: true,
 
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
 
+                animation: {
+                    duration: 1200
+                },
+
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+
+             plugins: {
+
+    legend: {
+        position: 'top'
+    },
+
+    tooltip: {
+
+        callbacks: {
+
+            label: function(context) {
+
+                return context.dataset.label +
+                    ": " +
+                    Number(context.raw).toFixed(1);
+
+                    }
+                }
             }
+        }
+    }
 
-        });
+    });
 
         mostrarTablaSeguimiento(datos);
+
+        document.getElementById("tablaSeguimiento")
+    ?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
 
     })
 
@@ -699,7 +779,9 @@ function mostrarTablaSeguimiento(datos) {
             <tr>
 
                 <td>
-                    ${d.fecha || "-"}
+                    ${d.fecha
+                        ? new Date(d.fecha).toLocaleDateString("es-AR")
+                        : "-"}
                 </td>
 
                 <td>
@@ -740,6 +822,12 @@ function mostrarTablaSeguimiento(datos) {
 // 🔹 GUARDAR O EDITAR PLAN
 function guardarPlan() {
 
+    const btn =
+                document.getElementById("btnGuardarPlan");
+
+            btn.disabled = true;
+            btn.innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
     const planId = document.getElementById("planId")?.value;
     const pacienteId = document.getElementById("paciente")?.value;
     const fecha = document.getElementById("fecha")?.value;
@@ -754,6 +842,12 @@ function guardarPlan() {
             text: "Seleccioná un paciente"
         });
     document.getElementById("paciente").focus();
+
+    btn.disabled = false;
+
+    btn.innerHTML =
+        '<i class="fa-solid fa-floppy-disk"></i> Guardar Plan';
+
     return;
 }
 
@@ -764,6 +858,11 @@ if (!fecha) {
             text: "Seleccioná una fecha"
         });
     document.getElementById("fecha").focus();
+
+    btn.disabled = false;
+
+    btn.innerHTML =
+        '<i class="fa-solid fa-floppy-disk"></i> Guardar Plan';
     return;
 }
 
@@ -789,6 +888,12 @@ if (
             text: "Completá al menos una comida del Día 1"
         });
     document.getElementById("desayuno_1").focus();
+
+    btn.disabled = false;
+
+    btn.innerHTML =
+        '<i class="fa-solid fa-floppy-disk"></i> Guardar Plan';
+
     return;
 }
 
@@ -836,6 +941,11 @@ if (
     })
    .then(() => {
 
+    btn.disabled = false;
+
+    btn.innerHTML =
+        '<i class="fa-solid fa-floppy-disk"></i> Guardar Plan';
+
     Swal.fire({
         icon: "success",
         title: "Plan alimentario",
@@ -844,11 +954,23 @@ if (
             : "Plan alimentario guardado correctamente"
     });
 
-    limpiarFormularioPlan();
-    buscarPlanesPorPaciente();
+                const pacienteBusqueda =
+                document.getElementById("pacienteBusqueda");
 
+            if (
+                pacienteBusqueda &&
+                pacienteBusqueda.value === pacienteId
+            ) {
+                buscarPlanesPorPaciente();
+            }
 })
     .catch(error => {
+
+        btn.disabled = false;
+
+        btn.innerHTML =
+            '<i class="fa-solid fa-floppy-disk"></i> Guardar Plan';
+
         console.error("Error al guardar plan:", error);
                 Swal.fire({
             icon: "error",
@@ -858,33 +980,71 @@ if (
     });
 }
 function limpiarFormularioPlan() {
+
+    Swal.fire({
+        title: "¿Limpiar formulario?",
+        text: "Se eliminarán los datos cargados",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, limpiar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+
+        if (!result.isConfirmed) {
+            return;
+        }
+
+        limpiarFormularioPlanConfirmado();
+
+    });
+
+}
+
+
+function limpiarFormularioPlanConfirmado() {
+
     const ids = [
-    "planId",
-    "paciente",
-    "fecha",
-    "colaciones",
-    "recomendaciones"
-];
+        "planId",
+        "fecha",
+        "colaciones",
+        "recomendaciones",
+        
+    ];
 
     ids.forEach(id => {
-        const elemento = document.getElementById(id);
+
+        const elemento =
+            document.getElementById(id);
+
         if (elemento) elemento.value = "";
     });
 
-    for (let i = 1; i <= 15; i++) {
-    document.getElementById(`desayuno_${i}`).value = "";
-    document.getElementById(`media_${i}`).value = "";
-    document.getElementById(`almuerzo_${i}`).value = "";
-    document.getElementById(`merienda_${i}`).value = "";
-    document.getElementById(`cena_${i}`).value = "";
-    }
-}
+    document.getElementById("fecha").value =
+        new Date().toISOString().split("T")[0];
 
+    for (let i = 1; i <= 15; i++) {
+
+        document.getElementById(`desayuno_${i}`).value = "";
+        document.getElementById(`media_${i}`).value = "";
+        document.getElementById(`almuerzo_${i}`).value = "";
+        document.getElementById(`merienda_${i}`).value = "";
+        document.getElementById(`cena_${i}`).value = "";
+    }
+
+    const btn =
+    document.getElementById("btnGuardarPlan");
+
+    btn.innerHTML =
+        '<i class="fa-solid fa-floppy-disk"></i> Guardar Plan';
+    }
 // 🔹 BUSCAR PLANES POR PACIENTE
 function buscarPlanesPorPaciente() {
 
     const pacienteId = document.getElementById("pacienteBusqueda")?.value;
     const listaPlanes = document.getElementById("listaPlanes");
+
+    console.log("PACIENTE VALUE:", pacienteId);
+    console.log(document.getElementById("paciente"));
 
     if (!pacienteId) {
                     Swal.fire({
@@ -1026,7 +1186,12 @@ async function eliminarPlan(id) {
             title: "Plan eliminado",
             text: "Plan eliminado correctamente"
         });
-        buscarPlanesPorPaciente();
+        const pacienteBusqueda =
+            document.getElementById("pacienteBusqueda")?.value;
+
+        if (pacienteBusqueda) {
+            buscarPlanesPorPaciente();
+        }
     })
     .catch(error => {
         console.error("Error al eliminar plan:", error);
@@ -1042,8 +1207,20 @@ function editarPlan(plan) {
 
     // 🔹 DATOS GENERALES
     document.getElementById("planId").value = plan.id;
-    document.getElementById("paciente").value = plan.paciente?.id || "";
-    document.getElementById("fecha").value = plan.fecha || "";
+
+            Swal.fire({
+            icon: "info",
+            title: "Modo edición",
+            text: "Estás editando un plan alimentario",
+            timer: 1600,
+            showConfirmButton: false,
+            returnFocus: false
+        });
+    document.getElementById("paciente").value =
+        plan.paciente?.id || "";
+
+    document.getElementById("fecha").value =
+        plan.fecha || "";
 
     document.getElementById("colaciones").value =
         plan.colaciones || "";
@@ -1085,15 +1262,26 @@ function editarPlan(plan) {
         });
     }
 
+    // 🔥 CAMBIAR BOTÓN A MODO EDICIÓN
+    const btn =
+        document.getElementById("btnGuardarPlan");
+
+    btn.innerHTML =
+        '<i class="fa-solid fa-pen"></i> Actualizar Plan';
+
     // 🔥 SCROLL ARRIBA
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+           window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+});
 }
-
-
 function guardarSeguimiento() {
+
+    const btn =
+          document.getElementById("btnGuardarSeguimiento");
+
+          btn.disabled = true;
+          btn.innerText = "Guardando...";
     const pacienteId = document.getElementById("pacienteSelect").value;
     const fecha = document.getElementById("fecha").value;
     const peso = document.getElementById("peso").value;
@@ -1111,6 +1299,11 @@ function guardarSeguimiento() {
             text: "Seleccioná un paciente"
         });
     document.getElementById("pacienteSelect").focus();
+
+    btn.disabled = false;
+    btn.innerText = "Guardar Seguimiento";
+
+
     return;
 }
 
@@ -1121,6 +1314,10 @@ if (!fecha) {
             text: "Seleccioná una fecha"
         });
     document.getElementById("fecha").focus();
+
+    btn.disabled = false;
+    btn.innerText = "Guardar Seguimiento";
+
     return;
 }
 
@@ -1131,6 +1328,10 @@ if (!peso || isNaN(peso) || peso <= 0) {
             text: "Ingresá un peso válido"
         });
     document.getElementById("peso").focus();
+
+    btn.disabled = false;
+    btn.innerText = "Guardar Seguimiento";
+
     return;
 }
 
@@ -1138,7 +1339,7 @@ if (!peso || isNaN(peso) || peso <= 0) {
     fecha: fecha,
     peso: peso,
     imc: imc,
-    notas: comentarios,
+    comentarios: comentarios,
 
     masaMuscular: masaMuscular,
     grasaCorporal: grasaCorporal,
@@ -1159,15 +1360,52 @@ fetch("http://localhost:8080/seguimientos", {
 })
 .then(res => res.json())
 .then(data => {
+
+                    btn.disabled = false;
+                btn.innerText = "Guardar Seguimiento";
             Swal.fire({
             icon: "success",
             title: "Seguimiento guardado",
             text: "Seguimiento guardado correctamente"
         });
+
+    limpiarFormularioSeguimiento();
+
     cargarSeguimiento();
 })
-.catch(error => console.error("Error:", error));
-} 
+.catch(error => {
+
+    console.error("Error:", error);
+
+    btn.disabled = false;
+    btn.innerText = "Guardar Seguimiento";
+
+    Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo guardar el seguimiento"
+    });
+
+});
+
+}
+
+
+function limpiarFormularioSeguimiento() {
+
+    document.getElementById("fecha").value = "";
+    document.getElementById("peso").value = "";
+    document.getElementById("imc").value = "";
+    document.getElementById("comentarios").value = "";
+
+    document.getElementById("masaMuscular").value = "";
+    document.getElementById("grasaCorporal").value = "";
+    document.getElementById("grasaVisceral").value = "";
+    document.getElementById("tmb").value = "";
+
+    document.getElementById("clasificacionIMC").innerHTML = "";
+
+}
 
 function mostrarAlturaPaciente(pacienteId) {
 
@@ -1193,14 +1431,19 @@ function mostrarAlturaPaciente(pacienteId) {
 const selectPaciente = document.getElementById("pacienteSelect");
 
 if (selectPaciente) {
+
     selectPaciente.addEventListener("change", function() {
+
         const pacienteId = this.value;
+
         if (pacienteId) {
+
             mostrarAlturaPaciente(pacienteId);
+
+            cargarSeguimiento();
         }
     });
 }
-
 
 async function descargarPDF(boton) {
 

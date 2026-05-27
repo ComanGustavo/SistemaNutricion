@@ -226,8 +226,8 @@
         <!-- ===================================== -->
 
         <div class="acciones">
-
             <button class="btn-guardar"
+                    id="btnGuardarPlan"
                     onclick="guardarPlan()">
 
                 <i class="fa-solid fa-floppy-disk"></i>
@@ -413,7 +413,13 @@ function duplicarDia(dia){
 
     if (dia >= 15) {
 
-        alert("El día 15 no puede duplicarse");
+                Swal.fire({
+            icon: "warning",
+            title: "No permitido",
+            text: "El Día 15 no puede duplicarse",
+            timer: 1800,
+            showConfirmButton: false
+        });
         return;
     }
 
@@ -447,7 +453,13 @@ function duplicarDia(dia){
     document.getElementById(`cena_${dia + 1}`).value =
         cena;
 
-    alert(`Día ${dia} duplicado al Día ${dia + 1}`);
+    Swal.fire({
+    icon: "success",
+    title: "Día duplicado",
+    text: `El Día ${dia} fue copiado al Día ${dia + 1}`,
+    timer: 1500,
+    showConfirmButton: false
+});
 }
 
 
@@ -456,6 +468,30 @@ function duplicarDia(dia){
 // =====================================
 
 function aplicarPlantilla(){
+
+    Swal.fire({
+        title: "¿Aplicar plantilla?",
+        text: "Esto reemplazará el contenido actual del plan",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, aplicar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+
+        if (!result.isConfirmed) {
+
+            document.getElementById("plantilla").value = "";
+
+            return;
+        }
+
+        aplicarPlantillaConfirmada();
+
+    });
+
+}
+
+    function aplicarPlantillaConfirmada(){
 
     const plantilla =
         document.getElementById("plantilla").value;
@@ -749,9 +785,18 @@ function aplicarPlantilla(){
         }
     }
 
-    alert("Plantilla aplicada correctamente");
-}
+    Swal.fire({
 
+        icon: "success",
+        title: "Plantilla aplicada",
+        text: "La plantilla nutricional fue cargada correctamente",
+        timer: 1500,
+        showConfirmButton: false
+        
+    });
+
+     document.getElementById("plantilla").value = "";
+}
 </script>
 
 
@@ -762,9 +807,9 @@ function aplicarPlantilla(){
 <!-- JS -->
 <!-- ===================================== -->
 
-<script src="/logo.js"></script>
+<script src="logo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="/script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
