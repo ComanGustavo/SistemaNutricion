@@ -924,7 +924,7 @@ if (
 
     const url = planId ? `${API_PLANES}/${planId}` : API_PLANES;
     const metodo = planId ? "PUT" : "POST";
-    console.log("PLAN A ENVIAR:", plan);
+    //console.log("PLAN A ENVIAR:", plan);
 
     fetch(url, {
         method: metodo,
@@ -1043,8 +1043,8 @@ function buscarPlanesPorPaciente() {
     const pacienteId = document.getElementById("pacienteBusqueda")?.value;
     const listaPlanes = document.getElementById("listaPlanes");
 
-    console.log("PACIENTE VALUE:", pacienteId);
-    console.log(document.getElementById("paciente"));
+    //console.log("PACIENTE VALUE:", pacienteId);
+    //console.log(document.getElementById("paciente"));
 
     if (!pacienteId) {
                     Swal.fire({
@@ -1059,7 +1059,7 @@ function buscarPlanesPorPaciente() {
         .then(res => res.json())
         .then(planes => {
 
-            console.log(planes);
+           // console.log(planes);
 
             listaPlanes.innerHTML = "";
 
@@ -1776,8 +1776,11 @@ function calcularIMC() {
         clasificacion = "Obesidad";
     }
 
-    document.getElementById("clasificacionIMC").innerHTML =
-        `<b>${clasificacion}</b>`;
+    const clasificacionIMC = document.getElementById("clasificacionIMC");
+
+        if (clasificacionIMC) {
+            clasificacionIMC.innerHTML = `<b>${clasificacion}</b>`;
+        }
 }
 
 

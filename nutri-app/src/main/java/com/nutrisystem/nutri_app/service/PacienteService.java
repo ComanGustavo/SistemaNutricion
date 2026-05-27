@@ -68,6 +68,31 @@ public class PacienteService {
     paciente.setEdad(pacienteActualizado.getEdad());
     paciente.setPeso(pacienteActualizado.getPeso());
     paciente.setAltura(pacienteActualizado.getAltura());
+    paciente.setTelefono(pacienteActualizado.getTelefono());
+paciente.setEmail(pacienteActualizado.getEmail());
+paciente.setDireccion(pacienteActualizado.getDireccion());
+paciente.setOcupacion(pacienteActualizado.getOcupacion());
+
+paciente.setImc(pacienteActualizado.getImc());
+
+paciente.setGrasaCorporal(pacienteActualizado.getGrasaCorporal());
+paciente.setMasaMuscular(pacienteActualizado.getMasaMuscular());
+paciente.setGrasaVisceral(pacienteActualizado.getGrasaVisceral());
+
+paciente.setCintura(pacienteActualizado.getCintura());
+paciente.setCadera(pacienteActualizado.getCadera());
+paciente.setIcc(pacienteActualizado.getIcc());
+
+paciente.setEntrevista(pacienteActualizado.getEntrevista());
+
+paciente.setEnfermedadesPrevias(
+        pacienteActualizado.getEnfermedadesPrevias());
+
+paciente.setMedicacion(
+        pacienteActualizado.getMedicacion());
+
+paciente.setAlergiasAlimentarias(
+        pacienteActualizado.getAlergiasAlimentarias());
 
     return repository.save(paciente);
     }

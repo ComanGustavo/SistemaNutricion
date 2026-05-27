@@ -27,6 +27,16 @@ public class Paciente {
     // 🔹 Datos corporales
     private Double peso;
     private Double altura;
+    private Double imc;
+    private Double grasaCorporal;
+    private Double masaMuscular;
+    private Double grasaVisceral;
+
+    private Double cintura;
+    private Double cadera;
+    private Double icc;
+
+    private String entrevista;
 
     // 🔹 Salud
     private String enfermedadesPrevias;
@@ -159,4 +169,68 @@ public class Paciente {
     public void setAlergiasAlimentarias(String alergiasAlimentarias) {
         this.alergiasAlimentarias = alergiasAlimentarias;
     }
+
+    public Double getImc() {
+    return imc;
+}
+
+public void setImc(Double imc) {
+    this.imc = imc;
+}
+
+public Double getGrasaCorporal() {
+    return grasaCorporal;
+}
+
+public void setGrasaCorporal(Double grasaCorporal) {
+    this.grasaCorporal = grasaCorporal;
+}
+
+public Double getMasaMuscular() {
+    return masaMuscular;
+}
+
+public void setMasaMuscular(Double masaMuscular) {
+    this.masaMuscular = masaMuscular;
+}
+
+public Double getGrasaVisceral() {
+    return grasaVisceral;
+}
+
+public void setGrasaVisceral(Double grasaVisceral) {
+    this.grasaVisceral = grasaVisceral;
+}
+
+public Double getCintura() {
+    return cintura;
+}
+
+public void setCintura(Double cintura) {
+    this.cintura = cintura;
+}
+
+public Double getCadera() {
+    return cadera;
+}
+
+public void setCadera(Double cadera) {
+    this.cadera = cadera;
+}
+
+public Double getIcc() {
+    return icc;
+}
+
+public void setIcc(Double icc) {
+    this.icc = icc;
+}
+
+public String getEntrevista() {
+    return entrevista;
+}
+
+public void setEntrevista(String entrevista) {
+    this.entrevista = entrevista;
+}
 }
