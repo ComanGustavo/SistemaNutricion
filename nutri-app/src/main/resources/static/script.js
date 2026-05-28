@@ -1587,7 +1587,7 @@ async function descargarPDF(boton) {
             y += 2;
         }
 
-        y += 6; // 🔥 MÁS AIRE ENTRE DÍAS
+        y += 10; // 🔥 MÁS AIRE ENTRE DÍAS
         dia++;
     }
 
