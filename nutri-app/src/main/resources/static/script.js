@@ -1470,31 +1470,59 @@ async function descargarPDF(boton) {
         doc.addImage(LOGO, "JPEG", 150, 10, 40, 25);
     } catch {}
 
-    let y = 40;
+    const margenX = 18;
+    const anchoContenido = 170;
+
+    let y = 45;
 
     // 🔷 HEADER
+   doc.setTextColor(40);
+
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(18);
-    doc.text("PLAN ALIMENTARIO PERSONALIZADO", 10, y);
+    doc.setFontSize(22);
+
+    doc.text(
+        "PLAN ALIMENTARIO",
+        105,
+        y,
+        { align: "center" }
+    );
 
     y += 10;
+
+    doc.setFontSize(14);
+
+    doc.text(
+        "PERSONALIZADO",
+        105,
+        y,
+        { align: "center" }
+    );
+
+    y += 14;
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(11);
-    doc.text("Lic. Ludmila Benitez", 10, y);
 
-    y += 8;
-    doc.text(`Paciente: ${paciente}`, 10, y);
+    doc.text(`Profesional: Lic. Ludmila Benitez`, margenX, y);
+    y += 7;
 
-    y += 8;
-    doc.text(`Fecha: ${new Date().toLocaleDateString("es-AR")}`, 10, y);
+    doc.text(`Paciente: ${paciente}`, margenX, y);
+    y += 7;
 
-    y += 8;
+    doc.text(
+        `Fecha: ${new Date().toLocaleDateString("es-AR")}`,
+        margenX,
+        y
+    );
 
-    doc.setDrawColor(180);
-    doc.line(10, y, 200, y);
     y += 10;
 
+    doc.setDrawColor(210);
+    doc.setLineWidth(0.5);
+    doc.line(margenX, y, 190, y);
+
+    y += 12;
     // 🔥 CONFIG
     const comidasPorDia = 4;
     const totalDias = 15;
@@ -1513,12 +1541,18 @@ async function descargarPDF(boton) {
         // 🔷 TÍTULO DÍA
         doc.setFont("helvetica", "bold");
         doc.setFontSize(13);
-        doc.text(`DÍA ${dia}`, 10, y);
-        y += 6;
+        doc.setFillColor(245, 245, 245);
+        doc.roundedRect(margenX, y - 5, 35, 10, 2, 2, "F");
+
+        doc.setTextColor(30);
+
+        doc.text(`DÍA ${dia}`, margenX + 8, y + 2);
+        y += 10;
 
         // 🔷 LÍNEA SEPARADORA
         doc.setDrawColor(200);
-        doc.line(10, y, 200, y);
+        doc.setDrawColor(230);
+        doc.line(margenX, y, 190, y);
         y += 6;
 
         // 🔷 COMIDAS DEL DÍA
@@ -1534,16 +1568,19 @@ async function descargarPDF(boton) {
             // TITULO
             doc.setFont("helvetica", "bold");
             doc.setFontSize(11);
-            doc.text(titulo.toUpperCase(), 10, y);
+            doc.text(titulo.toUpperCase(), margenX, y);
             y += 5;
 
             // CONTENIDO
             doc.setFont("helvetica", "normal");
 
-            const lineas = doc.splitTextToSize(contenido || "-", 180);
+            const lineas = doc.splitTextToSize(
+                contenido || "-",
+                anchoContenido
+            );
 
             lineas.forEach(l => {
-                doc.text(l, 10, y);
+                doc.text(l, margenX, y);
                 y += 5;
             });
 
@@ -1562,7 +1599,7 @@ async function descargarPDF(boton) {
         // salto si hace falta
         if (y > 260) {
             doc.addPage();
-            y = 20;
+            y = 25;
         }
 
         doc.setFont("helvetica", "bold");
@@ -1571,7 +1608,8 @@ async function descargarPDF(boton) {
         y += 6;
 
         doc.setDrawColor(180);
-        doc.line(10, y, 200, y);
+        doc.setDrawColor(230);
+        doc.line(margenX, y, 190, y);
         y += 6;
 
         extras.forEach(texto => {
@@ -1582,15 +1620,18 @@ async function descargarPDF(boton) {
 
             doc.setFont("helvetica", "bold");
             doc.setFontSize(11);
-            doc.text(titulo.toUpperCase(), 10, y);
+            doc.text(titulo.toUpperCase(), margenX, y);
             y += 5;
 
             doc.setFont("helvetica", "normal");
 
-            const lineas = doc.splitTextToSize(contenido || "-", 180);
+            const lineas = doc.splitTextToSize(
+                contenido || "-",
+                anchoContenido
+            );
 
             lineas.forEach(l => {
-                doc.text(l, 10, y);
+                doc.text(l, margenX, y);
                 y += 5;
             });
 
@@ -1605,7 +1646,15 @@ async function descargarPDF(boton) {
         doc.setPage(i);
         doc.setFontSize(9);
         doc.setTextColor(120);
-        doc.text("Sistema de Gestión Nutricional", 10, 285);
+        doc.setDrawColor(220);
+        doc.line(15, 280, 195, 280);
+
+        doc.text(
+            "Sistema de Gestión Nutricional",
+            105,
+            286,
+            { align: "center" }
+        );
     }
 
     doc.save("plan_alimentario.pdf");
