@@ -1553,7 +1553,7 @@ async function descargarPDF(boton) {
         doc.setDrawColor(200);
         doc.setDrawColor(230);
         doc.line(margenX, y, 190, y);
-        y += 6;
+        y += 12;
 
         // 🔷 COMIDAS DEL DÍA
         for (let j = 0; j < comidasPorDia; j++) {
@@ -1597,7 +1597,7 @@ async function descargarPDF(boton) {
     if (extras.length > 0) {
 
         // salto si hace falta
-        if (y > 260) {
+        if (y > 245) {
             doc.addPage();
             y = 25;
         }
@@ -1612,7 +1612,12 @@ async function descargarPDF(boton) {
         doc.line(margenX, y, 190, y);
         y += 6;
 
-        extras.forEach(texto => {
+        const extrasFiltrados = extras.filter(t =>
+            t.toLowerCase().includes("colaciones") ||
+            t.toLowerCase().includes("recomendaciones")
+        );
+
+        extrasFiltrados.forEach(texto => {
 
             let partes = texto.split(":");
             let titulo = partes[0];
