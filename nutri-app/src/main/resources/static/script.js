@@ -1533,9 +1533,9 @@ async function descargarPDF(boton) {
     for (let i = 0; i < totalDias * comidasPorDia; i += comidasPorDia) {
 
         // 🔷 SALTO DE PÁGINA
-        if (y > 260) {
+        if (y > 240) {
             doc.addPage();
-            y = 20;
+            y = 25;
         }
 
         // 🔷 TÍTULO DÍA
@@ -1597,7 +1597,7 @@ async function descargarPDF(boton) {
     if (extras.length > 0) {
 
         // salto si hace falta
-        if (y > 245) {
+        if (y > 240) {
             doc.addPage();
             y = 25;
         }
