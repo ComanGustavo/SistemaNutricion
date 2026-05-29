@@ -418,7 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarPacientes();
     cargarTurnos();
     cargarTurnosHoy(); 
-    cargarCalendario();
+    //cargarCalendario();
 });
 
 
