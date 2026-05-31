@@ -119,10 +119,39 @@ body::before {
         font-size: 12px;
         color: #999;
     }
+
+    .top-buttons{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+.btn-turno{
+    background: #0d6efd;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: .3s;
+}
+
+.btn-turno:hover{
+    transform: scale(1.05);
+}
 </style>
 </head>
 
 <body>
+
+    <div class="top-buttons">
+    <button class="btn-turno" onclick="window.location.href='turnos.html'">
+        📅 Sacar Turno
+    </button>
+    </div>
 
 <div class="container">
 
@@ -140,16 +169,19 @@ body::before {
     </button>
 
     <div class="footer">
-        © Nutrición Profesional
+        © Nutrición Profesional- Todos los derechos reservados.
     </div>
 
 </div>
 
 <script>
 function ingresar() {
-    window.location.href = "dashboard.html";
+    window.location.href = "login.html";
 }
 </script>
 
+   
 </body>
+
+
 </html>

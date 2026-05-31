@@ -78,7 +78,9 @@
                 📅 Turnos
             </a>
 
-           
+           <a href="#" onclick="cerrarSesion()">
+                🚪 Cerrar Sesión
+            </a>
 
         </nav>
 
@@ -141,10 +143,7 @@
 
         </div>
 
-        <div class="volver" onclick="volverInicio()">
-            ← Volver al inicio
-        </div>
-
+        
     </main>
 
 </div>
@@ -155,6 +154,11 @@
 <script>
 
 const API = "http://localhost:8080";
+
+// 🔒 Verificar sesión
+if(sessionStorage.getItem("logueado") !== "SI"){
+    window.location.href = "login.html";
+}
 
 // 🔹 DASHBOARD
 function cargarDashboard() {
@@ -247,6 +251,14 @@ function volverInicio() {
 // INIT
 cargarDashboard();
 cargarGraficoTurnos();
+
+
+function cerrarSesion(){
+
+    sessionStorage.removeItem("logueado");
+
+    window.location.href = "inicio.html";
+}
 
 </script>
 
